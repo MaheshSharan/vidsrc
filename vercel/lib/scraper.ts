@@ -105,7 +105,7 @@ async function getM3u8Urls(
   for (const raw of rawUrls) {
     let resolved = raw;
     for (const [k, v] of Object.entries(cdnVars)) {
-      resolved = resolved.replaceAll(`{${k}}`, v);
+      resolved = resolved.split(`{${k}}`).join(v);
     }
     if (resolved.includes("{v") || seen.has(resolved)) continue;
     seen.add(resolved);
