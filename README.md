@@ -2,6 +2,16 @@
 
 Request-based scraper for vidsrc.to. No browser, no Selenium. Returns HLS m3u8 stream URLs for any movie or TV show by IMDB or TMDB id.
 
+## Vercel deployment
+
+The `vercel/` folder is a self-contained TypeScript/Node project ready to deploy for vercel.
+
+On Vercel dashboard: set the root directory to `vidsrc/vercel` so it only sees that folder.
+
+---
+
+## Python CLI (local use)
+
 ## Requirements
 
 - Python 3.10+
@@ -23,14 +33,6 @@ python scraper.py tt1234567 --type tv --season 1 --episode 3
 # JSON output
 python scraper.py tt9263550 --json
 ```
-
-## Files
-
-```
-scraper.py           - main scraper, importable as a module
-extract_cdn_vars.js  - Node.js helper that resolves obfuscated CDN hostnames
-```
-
 ## How it works
 
 vidsrc.to serves content through a 4-hop chain, all request-based:
