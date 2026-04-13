@@ -1,4 +1,7 @@
 {
+  "outputDirectory": ".",
+  "buildCommand": "",
+  "installCommand": "npm install",
   "functions": {
     "api/*.ts": {
       "maxDuration": 30
