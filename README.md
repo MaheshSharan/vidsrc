@@ -2,20 +2,11 @@
 
 Request-based scraper for vidsrc.to. No browser, no Selenium. Returns HLS m3u8 stream URLs for any movie or TV show by IMDB or TMDB id.
 
-## Vercel deployment
-
-The `vercel/` folder is a self-contained TypeScript/Node project ready to deploy for vercel.
-
-On Vercel dashboard: set the root directory to `vidsrc/vercel` so it only sees that folder.
-
----
-
 ## Python CLI (local use)
 
 ## Requirements
 
 - Python 3.10+
-- Node.js (any recent version)
 - `pip install requests`
 
 ## Usage
@@ -49,14 +40,10 @@ vidsrc.to serves content through a 4-hop chain, all request-based:
   ▼                                              │
   GET cloudnestra.com/prorcp/{hash}  ◄───────────┘
   │   parse Playerjs({ file: "url1 or url2 or ..." })
-  │   resolve {v1}..{v5} CDN placeholders via extract_cdn_vars.js
+  │   resolve {v1}..{v5} CDN placeholders from cloudnestra JS
   ▼
   [ https://tmstr5.<cdn>/pl/<token>/master.m3u8, ... ]
 ```
-
-The `{v1}`-`{v5}` placeholders come from an obfuscated JS file whose filename is embedded in the prorcp page via `document.write`. `extract_cdn_vars.js` fetches that file and runs it in a Node.js VM sandbox with a mocked browser environment to extract the real hostnames. If that fails, it falls back to last-known-good values.
-
-The `{v1}`-`{v5}` placeholders are resolved by an obfuscated JS file whose filename is embedded in the prorcp page via `document.write`. `extract_cdn_vars.js` fetches that file and runs it in a Node.js VM sandbox with a mocked browser environment to extract the real hostnames. If that fails, it falls back to last-known-good values.
 
 ## Using the streams
 
@@ -107,6 +94,5 @@ for stream in result["streams"]:
 ## Notes
 
 - Multiple stream URLs are returned per title (redundant CDN mirrors, same content)
-- The first URL (`tmstr5.neonhorizonworkshops.com`) is the primary CDN and most reliable
-- CDN hostnames rotate periodically; the Node.js extractor handles this automatically
+- CDN hostnames rotate periodically; resolver logic parses cloudnestra script values at runtime
 - Add a delay between requests if scraping in bulk to avoid rate limiting
